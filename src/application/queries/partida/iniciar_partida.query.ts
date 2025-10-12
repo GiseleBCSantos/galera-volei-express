@@ -8,6 +8,8 @@ export class IniciarPartidaQuery {
 
   public execute(id: string) {
     const partida = partidas.find((partida) => partida.id === id);
+    console.log(partida);
+
     if (!partida) {
       throw new ObjectNotFound("Partida com id " + id + " não encontrada");
     }

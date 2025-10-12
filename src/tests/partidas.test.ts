@@ -1,5 +1,6 @@
 import request from "supertest";
 import app from "../server";
+import { STATUS_PARTIDA } from "../application/models/partida_model";
 
 describe("Teste da API de Partidas", () => {
   it("Deve retornar todas as partidas", async () => {
@@ -26,6 +27,7 @@ describe("Teste da API de Partidas", () => {
       expect.objectContaining({
         ...novaPartida,
         data_partida: new Date(novaPartida.data_partida).toISOString(),
+        status: STATUS_PARTIDA.AGENDADA,
       })
     );
   });
@@ -44,6 +46,17 @@ describe("Teste da API de Partidas", () => {
       expect.objectContaining({
         ...atualizacaoPartida,
         data_partida: new Date(atualizacaoPartida.data_partida).toISOString(),
+      })
+    );
+  });
+  it("Deve iniciar uma partida", async () => {
+    const response = await request(app)
+      .patch("/partidas/1/iniciar")
+      .send({ status: STATUS_PARTIDA.EM_ANDAMENTO });
+    expect(response.status).toBe(200);
+    expect(response.body).toEqual(
+      expect.objectContaining({
+        status: STATUS_PARTIDA.EM_ANDAMENTO,
       })
     );
   });

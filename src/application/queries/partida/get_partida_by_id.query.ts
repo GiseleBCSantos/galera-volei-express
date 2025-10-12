@@ -1,4 +1,5 @@
 import { ObjectNotFound } from "../../../presentation/exceptions/ObjectNotFount";
+import { Partida } from "../../models/partida_model";
 import { partidas } from "../../repositories/partida_repository";
 
 export class GetPartidaByIdQuery {

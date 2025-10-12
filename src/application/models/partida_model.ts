@@ -4,7 +4,7 @@ export const STATUS_PARTIDA = {
   FINALIZADA: "finalizada",
 } as const;
 
-interface Partida extends BaseModel {
+export interface Partida extends BaseModel {
   id: string;
   nome: string;
   data_partida: Date;
