@@ -4,6 +4,11 @@ export const STATUS_PARTIDA = {
   FINALIZADA: "finalizada",
 } as const;
 
+export const TIPO_PARTIDA = {
+  PUBLICA: "publica",
+  PRIVADA: "privada",
+} as const;
+
 export interface Partida extends BaseModel {
   id: string;
   nome: string;
@@ -12,5 +17,6 @@ export interface Partida extends BaseModel {
   adminId: string;
   jogadoresIds: string[];
   num_max_jogadores?: number;
-  status?: (typeof STATUS_PARTIDA)[keyof typeof STATUS_PARTIDA];
+  status: (typeof STATUS_PARTIDA)[keyof typeof STATUS_PARTIDA];
+  tipo: (typeof TIPO_PARTIDA)[keyof typeof TIPO_PARTIDA];
 }

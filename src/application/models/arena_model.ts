@@ -1,4 +1,4 @@
-interface Arena {
+export interface Arena {
   id: string;
   nome: string;
   zona: string;
