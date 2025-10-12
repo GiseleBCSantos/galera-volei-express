@@ -9,7 +9,7 @@ export class GetPartidaByIdQuery {
     const partida = partidas.find((partida) => partida.id === id);
 
     if (!partida) {
-      throw new ObjectNotFound("Partida not found");
+      throw new ObjectNotFound(`Partida com ID ${id} não encontrada.`);
     }
     return partida;
   }
