@@ -1,5 +1,7 @@
 import { MaxJogadoresExcedidoException } from "../../../presentation/exceptions/MaxJogadoresExcedidoException";
 import { ObjectNotFound } from "../../../presentation/exceptions/ObjectNotFount";
+import { UnauthorizedException } from "../../../presentation/exceptions/UnauthorizedException";
+import { TIPO_PARTIDA } from "../../models/partida_model";
 import { partidas } from "../../repositories/partida_repository";
 
 export class JogadorEntraPartidaQuery {
@@ -9,6 +11,16 @@ export class JogadorEntraPartidaQuery {
     const partida = partidas.find((p) => p.id === partidaId);
     if (!partida) {
       throw new ObjectNotFound(`Partida com id ${partidaId} não encontrada`);
+    }
+    if (
+      partida.tipo === TIPO_PARTIDA.PRIVADA &&
+      partida.adminId !== jogadorId
+    ) {
+      console.log("partida nao autorizada", partida);
+
+      throw new UnauthorizedException(
+        `Partida com id ${partidaId} é privada. Convite necessário para entrar.`
+      );
     }
     if (
       partida.num_max_jogadores &&
