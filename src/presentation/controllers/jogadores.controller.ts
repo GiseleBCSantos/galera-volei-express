@@ -132,6 +132,8 @@ export class JogadoresController {
   };
 
   private handleError(res: Response, error: unknown) {
+    console.log("error", error);
+
     if (error instanceof NotFoundHTTPException) {
       return res.status(404).json({ message: error.message });
     }
@@ -149,7 +151,7 @@ export class JogadoresController {
     }
 
     if (error instanceof UnauthorizedException) {
-      return res.status(403).json({ message: error.message });
+      return res.status(401).json({ message: error.message });
     }
 
     console.error("Erro inesperado:", error);
