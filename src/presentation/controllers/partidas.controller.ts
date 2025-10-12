@@ -9,6 +9,7 @@ import { HTTPException } from "../exceptions/HTTPException";
 import { ObjectNotFound } from "../exceptions/ObjectNotFount";
 import { InvalidValuesException } from "../exceptions/InvalidValuesException";
 import { IniciarPartidaQuery } from "../../application/queries/partida/iniciar_partida.query";
+import { UnauthorizedException } from "../exceptions/UnauthorizedException";
 
 export class PartidasController {
   private getAllPartidasQuery: GetAllPartidasQuery;
@@ -38,13 +39,23 @@ export class PartidasController {
 
   public createOne = async (req: Request, res: Response) => {
     try {
-      const { nome, data_partida, arenaId, jogadoresIds, adminId } = req.body;
+      const {
+        nome,
+        data_partida,
+        arenaId,
+        jogadoresIds,
+        adminId,
+        num_max_jogadores,
+        tipo,
+      } = req.body;
       const newPartida = this.createPartidaQuery.execute(
         adminId,
         nome,
         data_partida,
         arenaId,
-        jogadoresIds
+        jogadoresIds,
+        num_max_jogadores,
+        tipo
       );
       return res.status(201).json(newPartida);
     } catch (error) {
@@ -106,20 +117,23 @@ export class PartidasController {
   };
 
   private handleError(res: Response, error: unknown) {
-    if (error instanceof NotFoundHTTPException) {
-      return res.status(404).json({ message: error.message });
-    }
-
-    if (error instanceof HTTPException) {
-      return res.status(error.statusCode).json({ message: error.message });
-    }
-
     if (error instanceof ObjectNotFound) {
       return res.status(404).json({ message: error.message });
     }
 
     if (error instanceof InvalidValuesException) {
       return res.status(400).json({ message: error.message });
+    }
+
+    if (error instanceof UnauthorizedException) {
+      return res.status(401).json({ message: error.message });
+    }
+    if (error instanceof NotFoundHTTPException) {
+      return res.status(404).json({ message: error.message });
+    }
+
+    if (error instanceof HTTPException) {
+      return res.status(error.statusCode).json({ message: error.message });
     }
 
     console.error("Erro inesperado:", error);
