@@ -5,11 +5,11 @@ export class GetAllArenasQuery {
 
   public execute(zona?: string): Arena[] {
     if (zona) {
-      console.log("Zona fornecida:", zona); // Log para depuração
+      console.log("Zona fornecida:", zona);
 
       const arenas_filtradas = arenas.filter((arena) => arena.zona === zona);
 
-      console.log("Arenas filtradas:", arenas_filtradas); // Log para depuração
+      console.log("Arenas filtradas:", arenas_filtradas);
 
       return arenas_filtradas;
     }

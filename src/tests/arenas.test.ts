@@ -36,4 +36,54 @@ describe("Testes da API de Arenas", () => {
     expect(res.body).toHaveProperty("id");
     expect(res.body).toMatchObject(novaArena);
   });
+
+  it("Deve atualizar uma arena existente", async () => {
+    const atualizacao = {
+      nome: "Arena Atualizada",
+      zona: "Leste",
+      endereco: "Rua Exemplo, 123",
+      geolocalizacao: "-23.55052,-46.633308",
+    };
+
+    const res = await request(app).put("/arenas/1").send(atualizacao);
+
+    expect(res.status).toBe(200);
+    expect(res.body).toHaveProperty("id", "1");
+    expect(res.body).toMatchObject(atualizacao);
+  });
+
+  it("Deve deletar uma arena existente", async () => {
+    const res = await request(app).delete("/arenas/1");
+    expect(res.status).toBe(204);
+    expect(res.body).toEqual({});
+  });
+
+  it("Deve retornar 404 ao buscar uma arena inexistente", async () => {
+    const res = await request(app).get("/arenas/9999");
+    expect(res.status).toBe(404);
+    expect(res.body).toHaveProperty(
+      "message",
+      "Arena com id 9999 não encontrada"
+    );
+  });
+  it("Deve retornar 404 ao atualizar uma arena inexistente", async () => {
+    const atualizacao = {
+      nome: "Arena Inexistente",
+      zona: "Oeste",
+    };
+    const res = await request(app).put("/arenas/9999").send(atualizacao);
+    expect(res.status).toBe(404);
+    expect(res.body).toHaveProperty(
+      "message",
+      "Arena com id 9999 não encontrada"
+    );
+  });
+  it("Deve retornar 404 ao deletar uma arena inexistente", async () => {
+    const res = await request(app).delete("/arenas/9999");
+    expect(res.status).toBe(404);
+    expect(res.body).toHaveProperty(
+      "message",
+      "Arena com id 9999 não encontrada"
+    );
+  });
 });

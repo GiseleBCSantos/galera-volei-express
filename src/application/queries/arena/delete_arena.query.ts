@@ -1,16 +1,13 @@
-import { v4 as uuid } from "uuid";
-
 import { NotFoundHTTPException } from "../../../presentation/exceptions/NotFoundHTTPException";
 import { arenas } from "../../repositories/arena_repository";
 
-export class GetArenaById {
+export class DeleteArena {
   constructor() {}
-
   public execute(id: string) {
-    const arena = arenas.find((arena) => arena.id === id);
-    if (!arena) {
+    const arenaIndex = arenas.findIndex((arena) => arena.id === id);
+    if (arenaIndex === -1) {
       throw new NotFoundHTTPException(`Arena com id ${id} não encontrada`);
     }
-    return arena;
+    arenas.splice(arenaIndex, 1);
   }
 }
