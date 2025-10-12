@@ -2,6 +2,10 @@ import request from "supertest";
 import app from "../server";
 import { jogadores } from "../application/repositories/jogador_repository";
 import { partidas } from "../application/repositories/partida_repository";
+import {
+  STATUS_PARTIDA,
+  TIPO_PARTIDA,
+} from "../application/models/partida_model";
 
 describe("Teste da API de Jogadores", () => {
   beforeEach(() => {
@@ -34,6 +38,27 @@ describe("Teste da API de Jogadores", () => {
       adminId: "1",
       jogadoresIds: ["1", "3"],
       status: "agendada",
+      tipo: "publica",
+    });
+    partidas.push({
+      id: "1",
+      nome: "Partida 1",
+      data_partida: new Date(),
+      arenaId: "arena1",
+      adminId: "1",
+      jogadoresIds: ["1", "3"],
+      status: "agendada",
+      tipo: "privada",
+    });
+    partidas.push({
+      id: "3",
+      nome: "Partida 3",
+      adminId: "1",
+      data_partida: new Date(),
+      arenaId: "3",
+      jogadoresIds: ["5", "1"],
+      status: STATUS_PARTIDA.AGENDADA,
+      tipo: TIPO_PARTIDA.PRIVADA,
     });
   });
 
@@ -166,11 +191,11 @@ describe("Teste da API de Jogadores", () => {
     expect(response.body).toHaveProperty("message", "Partida não encontrada");
   });
 
-  it("Deve retornar 403 ao tentar convidar um jogador para uma partida sem ser o administrador", async () => {
+  it("Deve retornar 401 ao tentar convidar um jogador para uma partida sem ser o administrador", async () => {
     const response = await request(app)
       .post("/jogadores/2/convidar/1/para/1")
       .send();
-    expect(response.status).toBe(403);
+    expect(response.status).toBe(401);
     expect(response.body).toHaveProperty(
       "message",
       "Apenas o administrador da partida pode convidar jogadores"
@@ -204,5 +229,14 @@ describe("Teste da API de Jogadores", () => {
       .post("/jogadores/1/convidar/9999/para/1")
       .send();
     expect(response.status).toBe(404);
+  });
+
+  it("Deve retornar 401 ao tentar entrar em uma partida privada sem convite", async () => {
+    const response = await request(app).post("/jogadores/2/partidas/3");
+    expect(response.status).toBe(401);
+    expect(response.body).toHaveProperty(
+      "message",
+      "Partida com id 3 é privada. Convite necessário para entrar."
+    );
   });
 });
