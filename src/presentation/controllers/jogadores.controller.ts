@@ -132,8 +132,6 @@ export class JogadoresController {
   };
 
   private handleError(res: Response, error: unknown) {
-    console.log("error", error);
-
     if (error instanceof NotFoundHTTPException) {
       return res.status(404).json({ message: error.message });
     }
