@@ -8,7 +8,7 @@ export const partidas: Array<Partida> = [
     adminId: "1",
     data_partida: new Date(),
     arenaId: "1",
-    jogadoresIds: ["1", "2"],
+    jogadoresIds: ["1", "3"],
     status: STATUS_PARTIDA.AGENDADA,
   },
   {

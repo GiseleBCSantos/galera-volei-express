@@ -13,3 +13,7 @@ jogadores_router.post(
   "/:jogadorId/partidas/:partidaId",
   jogadores_controller.jogadorEntraPartida
 );
+jogadores_router.post(
+  "/:jogadorAnfitriaoId/convidar/:jogadorConvidadoId/para/:partidaId",
+  jogadores_controller.convidarParaPartida
+);

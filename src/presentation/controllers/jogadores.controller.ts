@@ -12,6 +12,8 @@ import { HTTPException } from "../exceptions/HTTPException";
 import { ObjectNotFound } from "../exceptions/ObjectNotFount";
 import { InvalidValuesException } from "../exceptions/InvalidValuesException";
 import { JogadorEntraPartidaQuery } from "../../application/queries/jogador/jogador_entra_partida.query";
+import { ConvidarParaPartidaQuery } from "../../application/queries/jogador/convidar_para_partida.query";
+import { UnauthorizedException } from "../exceptions/UnauthorizedException";
 
 export class JogadoresController {
   private getAllJogadoresQuery: GetAllJogadoresQuery;
@@ -20,6 +22,7 @@ export class JogadoresController {
   private updateJogadorQuery: UpdateJogadorQuery;
   private deleteJogadorQuery: DeleteJogadorQuery;
   private jogadorEntraPartidaQuery: JogadorEntraPartidaQuery;
+  private convidarParaPartidaQuery: ConvidarParaPartidaQuery;
 
   constructor() {
     this.getAllJogadoresQuery = new GetAllJogadoresQuery();
@@ -28,6 +31,7 @@ export class JogadoresController {
     this.updateJogadorQuery = new UpdateJogadorQuery();
     this.deleteJogadorQuery = new DeleteJogadorQuery();
     this.jogadorEntraPartidaQuery = new JogadorEntraPartidaQuery();
+    this.convidarParaPartidaQuery = new ConvidarParaPartidaQuery();
   }
 
   public getAll = async (req: Request, res: Response) => {
@@ -112,6 +116,21 @@ export class JogadoresController {
     }
   };
 
+  public convidarParaPartida = async (req: Request, res: Response) => {
+    try {
+      const { jogadorAnfitriaoId, jogadorConvidadoId, partidaId } = req.params;
+
+      const partidaAtualizada = this.convidarParaPartidaQuery.execute(
+        jogadorAnfitriaoId,
+        jogadorConvidadoId,
+        partidaId
+      );
+      return res.status(200).json(partidaAtualizada);
+    } catch (error) {
+      return this.handleError(res, error);
+    }
+  };
+
   private handleError(res: Response, error: unknown) {
     if (error instanceof NotFoundHTTPException) {
       return res.status(404).json({ message: error.message });
@@ -127,6 +146,10 @@ export class JogadoresController {
 
     if (error instanceof InvalidValuesException) {
       return res.status(400).json({ message: error.message });
+    }
+
+    if (error instanceof UnauthorizedException) {
+      return res.status(403).json({ message: error.message });
     }
 
     console.error("Erro inesperado:", error);
