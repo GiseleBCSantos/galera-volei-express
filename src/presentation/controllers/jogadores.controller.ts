@@ -35,8 +35,14 @@ export class JogadoresController {
   }
 
   public getAll = async (req: Request, res: Response) => {
+    const { nome, email, sexo, idade } = req.query;
     try {
-      const jogadores = this.getAllJogadoresQuery.execute();
+      const jogadores = this.getAllJogadoresQuery.execute(
+        nome as string | undefined,
+        email as string | undefined,
+        sexo as string | undefined,
+        idade as number | undefined
+      );
       return res.status(200).json(jogadores);
     } catch (error) {
       return this.handleError(res, error);

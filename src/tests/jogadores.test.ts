@@ -239,4 +239,45 @@ describe("Teste da API de Jogadores", () => {
       "Partida com id 3 é privada. Convite necessário para entrar."
     );
   });
+
+  // Filtros em get all jogadores
+  it("Deve filtrar jogadores por nome", async () => {
+    const response = await request(app).get("/jogadores?nome=Admin");
+    expect(response.status).toBe(200);
+    expect(response.body.length).toBe(1);
+    expect(response.body[0]).toHaveProperty("nome", "Admin");
+  });
+
+  it("Deve filtrar jogadores por email", async () => {
+    const response = await request(app).get("/jogadores?email=admin@mail.com");
+    expect(response.status).toBe(200);
+    expect(response.body.length).toBe(1);
+    expect(response.body[0]).toHaveProperty("email", "admin@mail.com");
+  });
+  it("Deve filtrar jogadores por sexo", async () => {
+    const response = await request(app).get("/jogadores?sexo=M");
+    expect(response.status).toBe(200);
+    expect(response.body.length).toBe(2);
+    expect(response.body[0]).toHaveProperty("sexo", "M");
+    expect(response.body[1]).toHaveProperty("sexo", "M");
+  });
+
+  it("Deve filtrar jogadores por idade", async () => {
+    const response = await request(app).get("/jogadores?idade=30");
+    expect(response.status).toBe(200);
+    expect(response.body.length).toBe(2);
+    expect(response.body[0]).toHaveProperty("idade", 30);
+    expect(response.body[1]).toHaveProperty("idade", 30);
+  });
+
+  it("Deve filtrar jogadores por múltiplos critérios", async () => {
+    const response = await request(app).get(
+      "/jogadores?sexo=M&idade=30&nome=Admin"
+    );
+    expect(response.status).toBe(200);
+    expect(response.body.length).toBe(1);
+    expect(response.body[0]).toHaveProperty("nome", "Admin");
+    expect(response.body[0]).toHaveProperty("sexo", "M");
+    expect(response.body[0]).toHaveProperty("idade", 30);
+  });
 });
