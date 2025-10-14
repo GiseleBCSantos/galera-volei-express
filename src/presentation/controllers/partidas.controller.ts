@@ -29,8 +29,17 @@ export class PartidasController {
   }
 
   public getAll = async (req: Request, res: Response) => {
+    const { nome, data_partida, arenaId, adminId, num_max_jogadores, tipo } =
+      req.query;
     try {
-      const partidas = this.getAllPartidasQuery.execute();
+      const partidas = this.getAllPartidasQuery.execute(
+        nome as string | undefined,
+        data_partida as string | undefined,
+        arenaId as string | undefined,
+        adminId as string | undefined,
+        num_max_jogadores as string | undefined,
+        tipo as string | undefined
+      );
       return res.status(200).json(partidas);
     } catch (error) {
       return this.handleError(res, error);

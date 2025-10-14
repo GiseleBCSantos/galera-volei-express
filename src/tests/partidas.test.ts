@@ -1,8 +1,36 @@
 import request from "supertest";
 import app from "../server";
 import { STATUS_PARTIDA } from "../application/models/partida_model";
+import { partidas } from "../application/repositories/partida_repository";
 
 describe("Teste da API de Partidas", () => {
+  beforeAll(() => {
+    partidas.push(
+      {
+        id: "1",
+        nome: "Partida 1",
+        data_partida: new Date(),
+        arenaId: "1",
+        adminId: "1",
+        jogadoresIds: ["1", "2"],
+        num_max_jogadores: 10,
+        status: STATUS_PARTIDA.AGENDADA,
+        tipo: "publica",
+      },
+      {
+        id: "2",
+        nome: "Partida 2",
+        data_partida: new Date(),
+        arenaId: "2",
+        adminId: "2",
+        jogadoresIds: ["3", "4"],
+        num_max_jogadores: 8,
+        status: STATUS_PARTIDA.AGENDADA,
+        tipo: "privada",
+      }
+    );
+  });
+
   it("Deve retornar todas as partidas", async () => {
     const response = await request(app).get("/partidas");
     expect(response.status).toBe(200);
@@ -93,5 +121,78 @@ describe("Teste da API de Partidas", () => {
   it("Deve retornar 404 ao tentar deletar uma partida inexistente", async () => {
     const response = await request(app).delete("/partidas/9999");
     expect(response.status).toBe(404);
+  });
+
+  // Teste para filtros
+  it("Deve filtrar partidas por nome", async () => {
+    const response = await request(app).get("/partidas?nome=Partida 1");
+    expect(response.status).toBe(200);
+    expect(response.body).toBeInstanceOf(Array);
+    response.body.forEach((partida: any) => {
+      expect(partida.nome).toContain("Partida 1");
+    });
+  });
+
+  it("Deve filtrar partidas por data", async () => {
+    const data = new Date().toISOString().split("T")[0];
+    const response = await request(app).get(`/partidas?data_partida=${data}`);
+    expect(response.status).toBe(200);
+    expect(response.body).toBeInstanceOf(Array);
+    response.body.forEach((partida: any) => {
+      expect(new Date(partida.data_partida).toISOString().split("T")[0]).toBe(
+        data
+      );
+    });
+  });
+
+  it("Deve filtrar partidas por arenaId", async () => {
+    const response = await request(app).get("/partidas?arenaId=1");
+    expect(response.status).toBe(200);
+    expect(response.body).toBeInstanceOf(Array);
+    response.body.forEach((partida: any) => {
+      expect(partida.arenaId).toBe("1");
+    });
+  });
+
+  it("Deve filtrar partidas por adminId", async () => {
+    const response = await request(app).get("/partidas?adminId=1");
+    expect(response.status).toBe(200);
+    expect(response.body).toBeInstanceOf(Array);
+    response.body.forEach((partida: any) => {
+      expect(partida.adminId).toBe("1");
+    });
+  });
+  it("Deve filtrar partidas por num_max_jogadores", async () => {
+    const response = await request(app).get("/partidas?num_max_jogadores=10");
+    expect(response.status).toBe(200);
+    expect(response.body).toBeInstanceOf(Array);
+    response.body.forEach((partida: any) => {
+      expect(partida.num_max_jogadores).toBe(10);
+    });
+  });
+
+  it("Deve filtrar partidas por tipo", async () => {
+    const response = await request(app).get("/partidas?tipo=publica");
+    expect(response.status).toBe(200);
+    expect(response.body).toBeInstanceOf(Array);
+    response.body.forEach((partida: any) => {
+      expect(partida.tipo).toBe("publica");
+    });
+  });
+
+  it("Deve filtrar partidas por múltiplos critérios", async () => {
+    const data = new Date().toISOString().split("T")[0];
+    const response = await request(app).get(
+      `/partidas?adminId=1&arenaId=1&data_partida=${data}`
+    );
+    expect(response.status).toBe(200);
+    expect(response.body).toBeInstanceOf(Array);
+    response.body.forEach((partida: any) => {
+      expect(partida.adminId).toBe("1");
+      expect(partida.arenaId).toBe("1");
+      expect(new Date(partida.data_partida).toISOString().split("T")[0]).toBe(
+        data
+      );
+    });
   });
 });
