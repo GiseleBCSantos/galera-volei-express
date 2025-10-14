@@ -16,8 +16,6 @@ export class JogadorEntraPartidaQuery {
       partida.tipo === TIPO_PARTIDA.PRIVADA &&
       partida.adminId !== jogadorId
     ) {
-      console.log("partida nao autorizada", partida);
-
       throw new UnauthorizedException(
         `Partida com id ${partidaId} é privada. Convite necessário para entrar.`
       );
