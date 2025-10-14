@@ -31,25 +31,12 @@ export class GetAllArenasQuery {
     endereco?: string,
     geolocalizacao?: string
   ): Arena[] {
-    let filteredArenas = arenas;
-
-    if (nome) {
-      filteredArenas = this.filterByName(filteredArenas, nome);
-    }
-
-    if (zona) {
-      filteredArenas = this.filterByZone(filteredArenas, zona);
-    }
-
-    if (endereco) {
-      filteredArenas = this.filterByAddress(filteredArenas, endereco);
-    }
-
-    if (geolocalizacao) {
-      filteredArenas = this.filterByGeolocation(filteredArenas, geolocalizacao);
-    }
-
-    return filteredArenas;
+    nome && (arenas = this.filterByName(arenas, nome));
+    zona && (arenas = this.filterByZone(arenas, zona));
+    endereco && (arenas = this.filterByAddress(arenas, endereco));
+    geolocalizacao &&
+      (arenas = this.filterByGeolocation(arenas, geolocalizacao));
+    return arenas;
   }
 
   private filterByName(arenas: Arena[], nome: string): Arena[] {
