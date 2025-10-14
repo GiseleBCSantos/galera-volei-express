@@ -5,9 +5,15 @@ export const log_middleware = (
   res: Response,
   next: NextFunction
 ) => {
-  const mensagem = `[${new Date().toISOString()}] Olá, tudo bem?`;
+  const start = Date.now();
 
-  console.log(mensagem);
+  res.on("finish", () => {
+    const duration = Date.now() - start;
+    const log = `[${new Date().toISOString()}] ${req.method} ${
+      req.originalUrl
+    } ${res.statusCode} - ${duration}ms`;
+    console.log(log);
+  });
 
   next();
 };
