@@ -12,9 +12,12 @@ import { InvalidValuesException } from "../exceptions/InvalidValuesException";
 export class ArenasController {
   public getAll = async (req: Request, res: Response) => {
     try {
-      const { zona } = req.query;
+      const { nome, zona, endereco, geolocalizacao } = req.query;
       const arenas = new GetAllArenasQuery().execute(
-        typeof zona === "string" && zona.trim() !== "" ? zona : undefined
+        nome as string | undefined,
+        zona as string | undefined,
+        endereco as string | undefined,
+        geolocalizacao as string | undefined
       );
       return res.status(200).json(arenas);
     } catch (error) {

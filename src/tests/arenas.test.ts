@@ -86,4 +86,56 @@ describe("Testes da API de Arenas", () => {
       "Arena com id 9999 não encontrada"
     );
   });
+
+  it("Deve retornar arenas filtradas por nome", async () => {
+    const res = await request(app).get("/arenas?nome=Arena A");
+
+    expect(res.status).toBe(200);
+    expect(Array.isArray(res.body)).toBe(true);
+    expect(res.body.every((arena: any) => arena.nome === "Arena A")).toBe(true);
+  });
+  it("Deve retornar arenas filtradas por endereço", async () => {
+    const res = await request(app).get("/arenas?endereco=Rua A");
+    expect(res.status).toBe(200);
+    expect(Array.isArray(res.body)).toBe(true);
+    expect(res.body.every((arena: any) => arena.endereco === "Rua A")).toBe(
+      true
+    );
+  });
+  it("Deve retornar arenas filtradas por geolocalização", async () => {
+    const res = await request(app).get(
+      "/arenas?geolocalizacao=-23.55052,-46.633308"
+    );
+    expect(res.status).toBe(200);
+    expect(Array.isArray(res.body)).toBe(true);
+    expect(
+      res.body.every(
+        (arena: any) => arena.geolocalizacao === "-23.55052,-46.633308"
+      )
+    ).toBe(true);
+  });
+  it("Deve retornar arenas filtradas por múltiplos critérios", async () => {
+    const res = await request(app).get(
+      "/arenas?zona=Norte&nome=Arena A&endereco=Rua A&geolocalizacao=-23.55052,-46.633308"
+    );
+    expect(res.status).toBe(200);
+    expect(Array.isArray(res.body)).toBe(true);
+    expect(
+      res.body.every(
+        (arena: any) =>
+          arena.zona === "Norte" &&
+          arena.nome === "Arena A" &&
+          arena.endereco === "Rua A" &&
+          arena.geolocalizacao === "-23.55052,-46.633308"
+      )
+    ).toBe(true);
+  });
+  it("Não deve retornar arenas se nenhum critério corresponder", async () => {
+    const res = await request(app).get(
+      "/arenas?zona=Oeste&nome=Inexistente&endereco=Rua Inexistente&geolocalizacao=0,0"
+    );
+    expect(res.status).toBe(200);
+    expect(Array.isArray(res.body)).toBe(true);
+    expect(res.body.length).toBe(0);
+  });
 });
