@@ -1,5 +1,60 @@
 # 📘 Documentação - API Galera do Vôlei
 
+## 📘 Funcionalidades por Entidade
+
+### 🧍 Jogador
+
+| Funcionalidade            | Descrição                                                                | Status              |
+| ------------------------- | ------------------------------------------------------------------------ | ------------------- |
+| Criar jogador             | Criação de um jogador com nome, email, idade e sexo                      | ✅ Permitido        |
+| Listar jogadores          | Listagem de todos os jogadores com filtros por nome, email, sexo, idade  | ✅ Permitido        |
+| Buscar jogador por ID     | Busca dos dados de um jogador específico                                 | ✅ Permitido        |
+| Atualizar jogador         | Atualização de dados do jogador (nome, email, idade, sexo)               | ✅ Permitido        |
+| Deletar jogador           | Exclusão de jogador do sistema                                           | ✅ Permitido        |
+| Entrar em partida         | Permitir que o jogador entre em uma partida existente                    | ✅ Permitido        |
+| Convidar para partida     | Permitir que um jogador convide outro para uma partida                   | ✅ Permitido        |
+| Confirmar presença        | Jogador confirma (ou não) presença antes da data da partida              | 🔜 Não implementado |
+| Cancelar participação     | Jogador pode cancelar sua presença com antecedência                      | 🔜 Não implementado |
+| Ver estatísticas pessoais | Total de partidas jogadas, vitórias, derrotas, média de pontos, presença | 🔜 Não implementado |
+
+---
+
+### 🏟️ Arena
+
+| Funcionalidade      | Descrição                                                               | Status              |
+| ------------------- | ----------------------------------------------------------------------- | ------------------- |
+| Criar arena         | Criação de arena com nome e zona                                        | ✅ Permitido        |
+| Listar arenas       | Listagem de arenas com filtros por nome, zona, endereço, geolocalização | ✅ Permitido        |
+| Buscar arena por ID | Busca de dados específicos de uma arena pelo seu ID                     | ✅ Permitido        |
+| Atualizar arena     | Atualização de dados da arena (nome, zona, endereço, geolocalização)    | ✅ Permitido        |
+| Deletar arena       | Exclusão de uma arena do sistema                                        | ✅ Permitido        |
+| Ver disponibilidade | Consultar datas/horários disponíveis para agendar uma partida           | 🔜 Não implementado |
+| Reservar arena      | Permitir reservar uma arena para data/hora específica                   | 🔜 Não implementado |
+| Cancelar reserva    | Cancelar uma reserva existente, liberando o espaço                      | 🔜 Não implementado |
+| Avaliar arena       | Jogadores podem avaliar a arena (estrutura, iluminação, etc.)           | 🔜 Não implementado |
+| Ver agenda da arena | Mostrar todas as partidas agendadas para uma arena                      | 🔜 Não implementado |
+
+---
+
+### 🏆 Partida
+
+| Funcionalidade                | Descrição                                                                                 | Status              |
+| ----------------------------- | ----------------------------------------------------------------------------------------- | ------------------- |
+| Criar partida                 | Criação de uma partida com nome, data, arena, jogadores, número máximo de jogadores, tipo | ✅ Permitido        |
+| Listar partidas               | Listagem de partidas com filtros por nome, data, arena, admin, tipo, número de jogadores  | ✅ Permitido        |
+| Buscar partida por ID         | Busca dos dados de uma partida específica                                                 | ✅ Permitido        |
+| Atualizar partida             | Atualização de dados da partida (nome, data, jogadores, arena)                            | ✅ Permitido        |
+| Deletar partida               | Exclusão de partida do sistema                                                            | ✅ Permitido        |
+| Iniciar partida               | Marcar uma partida como iniciada                                                          | ✅ Permitido        |
+| Finalizar partida             | Marcar uma partida como concluída e registrar o resultado final                           | 🔜 Não implementado |
+| Registrar placar              | Permitir registrar o placar set a set após a finalização da partida                       | 🔜 Não implementado |
+| Cancelar partida              | Cancelar uma partida futura com motivo e notificar os jogadores                           | 🔜 Não implementado |
+| Dividir times automaticamente | Gerar divisão automática dos jogadores em dois times equilibrados                         | 🔜 Não implementado |
+| Dividir times manualmente     | Organizador seleciona os jogadores para cada time manualmente                             | 🔜 Não implementado |
+| Lista de espera               | Jogadores extras entram em uma fila de espera para substituir ausentes                    | 🔜 Não implementado |
+
+# Entidades
+
 ## 🧍 Jogadores
 
 Entidade que representa um usuário/jogador cadastrado no sistema.
