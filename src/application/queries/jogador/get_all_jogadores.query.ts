@@ -9,18 +9,14 @@ export class GetAllJogadoresQuery {
     sexo: string | undefined,
     idade: number | undefined
   ): Array<Jogador> {
-    let jogadoresFiltrados = jogadores;
-    if (nome || email || sexo || idade) {
-      jogadoresFiltrados = this.getFilteredJogadores(
-        jogadoresFiltrados,
-        nome,
-        email,
-        sexo,
-        idade
-      );
-      return jogadoresFiltrados;
-    }
-    return jogadores;
+    const jogadoresFiltrados = this.getFilteredJogadores(
+      jogadores,
+      nome,
+      email,
+      sexo,
+      idade
+    );
+    return jogadoresFiltrados;
   }
 
   private getFilteredJogadores(
