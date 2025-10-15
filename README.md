@@ -50,7 +50,7 @@
 | Registrar placar              | Permitir registrar o placar set a set após a finalização da partida                       | 🔜 Não implementado |
 | Cancelar partida              | Cancelar uma partida futura com motivo e notificar os jogadores                           | 🔜 Não implementado |
 | Dividir times automaticamente | Gerar divisão automática dos jogadores em dois times equilibrados                         | 🔜 Não implementado |
-| Dividir times manualmente     | Organizador seleciona os jogadores para cada time manualmente                             | 🔜 Não implementado |
+| Dividir times manualmente     | Jogadores escolhem em qual time jogar manualmente                                         | ✅ Permitido        |
 | Lista de espera               | Jogadores extras entram em uma fila de espera para substituir ausentes                    | 🔜 Não implementado |
 
 # Entidades
