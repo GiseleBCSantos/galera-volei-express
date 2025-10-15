@@ -10,6 +10,8 @@ import { ObjectNotFound } from "../exceptions/ObjectNotFount";
 import { InvalidValuesException } from "../exceptions/InvalidValuesException";
 import { IniciarPartidaQuery } from "../../application/queries/partida/iniciar_partida.query";
 import { UnauthorizedException } from "../exceptions/UnauthorizedException";
+import { JogadorEscolheTimeQuery } from "../../application/queries/partida/jogador_escolhe_time.query";
+import { BusinessRuleException } from "../exceptions/BusinessRuleException";
 
 export class PartidasController {
   private getAllPartidasQuery: GetAllPartidasQuery;
@@ -18,6 +20,7 @@ export class PartidasController {
   private updatePartidaQuery: UpdatePartidaQuery;
   private deletePartidaQuery: DeletePartidaQuery;
   private iniciarPartidaQuery: IniciarPartidaQuery;
+  private jogadorEscolheTimeQuery: JogadorEscolheTimeQuery;
 
   constructor() {
     this.getAllPartidasQuery = new GetAllPartidasQuery();
@@ -26,6 +29,7 @@ export class PartidasController {
     this.updatePartidaQuery = new UpdatePartidaQuery();
     this.deletePartidaQuery = new DeletePartidaQuery();
     this.iniciarPartidaQuery = new IniciarPartidaQuery();
+    this.jogadorEscolheTimeQuery = new JogadorEscolheTimeQuery();
   }
 
   public getAll = async (req: Request, res: Response) => {
@@ -118,7 +122,25 @@ export class PartidasController {
   public iniciarPartida = async (req: Request, res: Response) => {
     try {
       const { id } = req.params;
+      console.log("Iniciando partida com ID:", id);
       const partida = this.iniciarPartidaQuery.execute(id);
+
+      return res.status(200).json(partida);
+    } catch (error) {
+      return this.handleError(res, error);
+    }
+  };
+
+  public jogadorEscolheTime = async (req: Request, res: Response) => {
+    try {
+      const { id: partidaId } = req.params;
+      const { jogadorId, time } = req.body;
+      const partida = this.jogadorEscolheTimeQuery.execute(
+        partidaId,
+        jogadorId,
+        time
+      );
+
       return res.status(200).json(partida);
     } catch (error) {
       return this.handleError(res, error);
@@ -142,6 +164,10 @@ export class PartidasController {
     }
 
     if (error instanceof HTTPException) {
+      return res.status(error.statusCode).json({ message: error.message });
+    }
+
+    if (error instanceof BusinessRuleException) {
       return res.status(error.statusCode).json({ message: error.message });
     }
 

@@ -1,6 +1,9 @@
 import request from "supertest";
 import app from "../server";
-import { STATUS_PARTIDA } from "../application/models/partida_model";
+import {
+  STATUS_PARTIDA,
+  TIPO_ESCOLHA_TIME,
+} from "../application/models/partida_model";
 import { partidas } from "../application/repositories/partida_repository";
 
 describe("Teste da API de Partidas", () => {
@@ -15,6 +18,17 @@ describe("Teste da API de Partidas", () => {
         jogadoresIds: ["1", "2"],
         num_max_jogadores: 10,
         status: STATUS_PARTIDA.AGENDADA,
+        tipo_escolha_time: TIPO_ESCOLHA_TIME.ESCOLHA_JOGADOR,
+        timeA: {
+          timeAPlanejamento: [],
+          jogadoresIds: [],
+          placar: 0,
+        },
+        timeB: {
+          timeBPlanejamento: [],
+          jogadoresIds: [],
+          placar: 0,
+        },
         tipo: "publica",
       },
       {
@@ -26,6 +40,17 @@ describe("Teste da API de Partidas", () => {
         jogadoresIds: ["3", "4"],
         num_max_jogadores: 8,
         status: STATUS_PARTIDA.AGENDADA,
+        tipo: "privada",
+      },
+      {
+        id: "3",
+        nome: "Partida 2",
+        data_partida: new Date(),
+        arenaId: "2",
+        adminId: "2",
+        jogadoresIds: ["3", "4"],
+        num_max_jogadores: 8,
+        status: STATUS_PARTIDA.EM_ANDAMENTO,
         tipo: "privada",
       }
     );
@@ -194,5 +219,70 @@ describe("Teste da API de Partidas", () => {
         data
       );
     });
+  });
+
+  // Teste para escolha de time
+
+  it("Deve permitir que um jogador escolha um time", async () => {
+    const response = await request(app)
+      .post("/partidas/1/escolher-time")
+      .send({ jogadorId: "1", time: "A" });
+    expect(response.status).toBe(200);
+    expect(response.body).toHaveProperty("timeA");
+    expect(response.body.timeA.timeAPlanejamento).toContain("1");
+    expect(response.body).toHaveProperty("timeB");
+    expect(response.body.timeB.timeBPlanejamento).not.toContain("1");
+  });
+  it("Deve retornar erro ao tentar escolher time com parâmetros inválidos", async () => {
+    const response = await request(app)
+      .post("/partidas/1/escolher-time")
+      .send({ jogadorId: "", time: "C" });
+    expect(response.status).toBe(400);
+    expect(response.body).toHaveProperty("message", "Parâmetros inválidos");
+  });
+  it("Deve retornar erro ao tentar escolher time em partida inexistente", async () => {
+    const response = await request(app)
+      .post("/partidas/9999/escolher-time")
+      .send({ jogadorId: "1", time: "A" });
+    expect(response.status).toBe(404);
+    expect(response.body).toHaveProperty(
+      "message",
+      "Partida com ID 9999 não encontrada."
+    );
+  });
+  it("Deve retornar erro ao tentar escolher time com jogador inexistente", async () => {
+    const response = await request(app)
+      .post("/partidas/1/escolher-time")
+      .send({ jogadorId: "9999", time: "A" });
+    expect(response.status).toBe(404);
+    expect(response.body).toHaveProperty(
+      "message",
+      "Jogador com id 9999 não encontrado"
+    );
+  });
+  it("Deve retornar erro ao tentar escolher time com jogador não na partida", async () => {
+    const response = await request(app)
+      .post("/partidas/1/escolher-time")
+      .send({ jogadorId: "3", time: "A" });
+    expect(response.status).toBe(400);
+    expect(response.body).toHaveProperty(
+      "message",
+      "Jogador não está na partida"
+    );
+  });
+  it("Deve retornar erro ao tentar escolher time em partida não agendada", async () => {
+    let response = await request(app).patch("/partidas/1/iniciar");
+    expect(response.status).toBe(200);
+
+    response = await request(app)
+      .post("/partidas/1/escolher-time")
+      .send({ jogadorId: "1", time: "A" });
+    expect(response.status).toBe(400);
+  });
+  it("Deve retornar erro ao tentar escolher time em partida com tipo de escolha inválido", async () => {
+    const response = await request(app)
+      .post("/partidas/2/escolher-time")
+      .send({ jogadorId: "3", time: "A" });
+    expect(response.status).toBe(400);
   });
 });

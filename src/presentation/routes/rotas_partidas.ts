@@ -10,3 +10,7 @@ partidas_router.post("/", partidas_controller.createOne);
 partidas_router.put("/:id", partidas_controller.updateOne);
 partidas_router.delete("/:id", partidas_controller.deleteOne);
 partidas_router.patch("/:id/iniciar", partidas_controller.iniciarPartida);
+partidas_router.post(
+  "/:id/escolher-time",
+  partidas_controller.jogadorEscolheTime
+);
