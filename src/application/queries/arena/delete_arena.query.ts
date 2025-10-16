@@ -1,4 +1,4 @@
-import { NotFoundHTTPException } from "../../../presentation/exceptions/NotFoundHTTPException";
+import { ObjectNotFound } from "../../exceptions/ObjectNotFount";
 import { arenas } from "../../repositories/arena_repository";
 
 export class DeleteArena {
@@ -6,7 +6,7 @@ export class DeleteArena {
   public execute(id: string) {
     const arenaIndex = arenas.findIndex((arena) => arena.id === id);
     if (arenaIndex === -1) {
-      throw new NotFoundHTTPException(`Arena com id ${id} não encontrada`);
+      throw new ObjectNotFound(`Arena com id ${id} não encontrada`);
     }
     arenas.splice(arenaIndex, 1);
   }

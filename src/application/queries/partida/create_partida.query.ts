@@ -1,7 +1,7 @@
 import { v4 as uuid } from "uuid";
 import { partidas } from "../../repositories/partida_repository";
-import { InvalidValuesException } from "../../../presentation/exceptions/InvalidValuesException";
 import { STATUS_PARTIDA, TIPO_PARTIDA } from "../../models/partida_model";
+import { InvalidValuesException } from "../../exceptions/InvalidValuesException";
 
 export class CreatePartidaQuery {
   constructor() {}

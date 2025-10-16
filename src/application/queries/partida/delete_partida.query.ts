@@ -1,4 +1,4 @@
-import { ObjectNotFound } from "../../../presentation/exceptions/ObjectNotFount";
+import { ObjectNotFound } from "../../exceptions/ObjectNotFount";
 import { partidas } from "../../repositories/partida_repository";
 
 export class DeletePartidaQuery {

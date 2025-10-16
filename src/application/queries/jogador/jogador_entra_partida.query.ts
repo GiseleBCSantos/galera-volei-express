@@ -1,6 +1,6 @@
-import { MaxJogadoresExcedidoException } from "../../../presentation/exceptions/MaxJogadoresExcedidoException";
-import { ObjectNotFound } from "../../../presentation/exceptions/ObjectNotFount";
-import { UnauthorizedException } from "../../../presentation/exceptions/UnauthorizedException";
+import { MaxJogadoresExcedidoException } from "../../exceptions/MaxJogadoresExcedidoException";
+import { ObjectNotFound } from "../../exceptions/ObjectNotFount";
+import { UnauthorizedException } from "../../exceptions/UnauthorizedException";
 import { TIPO_PARTIDA } from "../../models/partida_model";
 import { partidas } from "../../repositories/partida_repository";
 

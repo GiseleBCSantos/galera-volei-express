@@ -1,6 +1,5 @@
-import { InvalidValuesException } from "../../../presentation/exceptions/InvalidValuesException";
-import { NotFoundHTTPException } from "../../../presentation/exceptions/NotFoundHTTPException";
-import { ObjectNotFound } from "../../../presentation/exceptions/ObjectNotFount";
+import { InvalidValuesException } from "../../exceptions/InvalidValuesException";
+import { ObjectNotFound } from "../../exceptions/ObjectNotFount";
 import { arenas } from "../../repositories/arena_repository";
 import { partidas } from "../../repositories/partida_repository";
 

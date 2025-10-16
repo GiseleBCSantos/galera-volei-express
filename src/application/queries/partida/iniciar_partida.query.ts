@@ -1,5 +1,5 @@
-import { InvalidValuesException } from "../../../presentation/exceptions/InvalidValuesException";
-import { ObjectNotFound } from "../../../presentation/exceptions/ObjectNotFount";
+import { InvalidValuesException } from "../../exceptions/InvalidValuesException";
+import { ObjectNotFound } from "../../exceptions/ObjectNotFount";
 import { STATUS_PARTIDA } from "../../models/partida_model";
 import { partidas } from "../../repositories/partida_repository";
 

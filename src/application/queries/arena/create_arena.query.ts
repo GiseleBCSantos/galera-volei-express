@@ -1,6 +1,6 @@
 import { v4 as uuid } from "uuid";
 import { arenas } from "../../repositories/arena_repository";
-import { InvalidValuesException } from "../../../presentation/exceptions/InvalidValuesException";
+import { InvalidValuesException } from "../../exceptions/InvalidValuesException";
 
 export class CreateArena {
   constructor() {}

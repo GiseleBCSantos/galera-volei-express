@@ -1,5 +1,5 @@
 import { NotFoundHTTPException } from "../../../presentation/exceptions/NotFoundHTTPException";
-import { ObjectNotFound } from "../../../presentation/exceptions/ObjectNotFount";
+import { ObjectNotFound } from "../../exceptions/ObjectNotFount";
 import { arenas } from "../../repositories/arena_repository";
 
 export class UpdateArena {

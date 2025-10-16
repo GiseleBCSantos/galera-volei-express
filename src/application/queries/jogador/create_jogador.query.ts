@@ -1,6 +1,6 @@
 import { v4 as uuid } from "uuid";
 import { jogadores } from "../../repositories/jogador_repository";
-import { InvalidValuesException } from "../../../presentation/exceptions/InvalidValuesException";
+import { InvalidValuesException } from "../../exceptions/InvalidValuesException";
 
 export class CreateJogadorQuery {
   constructor() {}

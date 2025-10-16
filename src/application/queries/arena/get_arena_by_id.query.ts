@@ -1,7 +1,7 @@
 import { v4 as uuid } from "uuid";
 
-import { NotFoundHTTPException } from "../../../presentation/exceptions/NotFoundHTTPException";
 import { arenas } from "../../repositories/arena_repository";
+import { ObjectNotFound } from "../../exceptions/ObjectNotFount";
 
 export class GetArenaById {
   constructor() {}
@@ -9,7 +9,7 @@ export class GetArenaById {
   public execute(id: string) {
     const arena = arenas.find((arena) => arena.id === id);
     if (!arena) {
-      throw new NotFoundHTTPException(`Arena com id ${id} não encontrada`);
+      throw new ObjectNotFound(`Arena com id ${id} não encontrada`);
     }
     return arena;
   }

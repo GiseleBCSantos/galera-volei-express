@@ -1,6 +1,6 @@
-import { InvalidValuesException } from "../../../presentation/exceptions/InvalidValuesException";
-import { ObjectNotFound } from "../../../presentation/exceptions/ObjectNotFount";
-import { UnauthorizedException } from "../../../presentation/exceptions/UnauthorizedException";
+import { InvalidValuesException } from "../../exceptions/InvalidValuesException";
+import { ObjectNotFound } from "../../exceptions/ObjectNotFount";
+import { UnauthorizedException } from "../../exceptions/UnauthorizedException";
 import { jogadores } from "../../repositories/jogador_repository";
 import { partidas } from "../../repositories/partida_repository";
 

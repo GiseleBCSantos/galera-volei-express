@@ -1,6 +1,6 @@
-import { BusinessRuleException } from "../../../presentation/exceptions/BusinessRuleException";
-import { InvalidValuesException } from "../../../presentation/exceptions/InvalidValuesException";
-import { ObjectNotFound } from "../../../presentation/exceptions/ObjectNotFount";
+import { BusinessRuleException } from "../../exceptions/BusinessRuleException";
+import { InvalidValuesException } from "../../exceptions/InvalidValuesException";
+import { ObjectNotFound } from "../../exceptions/ObjectNotFount";
 import { Partida } from "../../models/partida_model";
 import { jogadores } from "../../repositories/jogador_repository";
 import { partidas } from "../../repositories/partida_repository";

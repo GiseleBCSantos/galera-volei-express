@@ -9,7 +9,7 @@ export const global_error_exception = (
 ) => {
   if (error instanceof HTTPException) {
     const message = error.message;
-    res.status(error.statusCode).json({ detail: message });
+    return res.status(error.statusCode).json({ detail: message });
   }
 
   const message = `${error.message} --> Tá tudo bem.`;

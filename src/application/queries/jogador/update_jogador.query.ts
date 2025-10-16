@@ -1,5 +1,5 @@
-import { InvalidValuesException } from "../../../presentation/exceptions/InvalidValuesException";
-import { ObjectNotFound } from "../../../presentation/exceptions/ObjectNotFount";
+import { InvalidValuesException } from "../../exceptions/InvalidValuesException";
+import { ObjectNotFound } from "../../exceptions/ObjectNotFount";
 import { jogadores } from "../../repositories/jogador_repository";
 
 export class UpdateJogadorQuery {
